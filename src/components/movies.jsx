@@ -14,6 +14,10 @@ class Movies extends Component {
         this.setState({ movies: updatedMovie });
     }
     render() {
+        const {length :count } = this.state.movies;
+        if(count === 0)
+        return <h2>There is no movie in the database!</h2>;
+        
         return (
             <div className=''>
                 {this.renderMovies()}
