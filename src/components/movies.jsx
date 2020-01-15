@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getMovies } from '../services/fakeMovieService';
+import Like from './like';
 
 class Movies extends Component {
     state = {
@@ -13,6 +14,13 @@ class Movies extends Component {
         let updatedMovie = this.state.movies.filter(item => item._id !== movie._id);
         this.setState({ movies: updatedMovie });
     }
+    handleLike = movie =>{
+        const movies = [...this.state.movies];
+        const index = movies.indexOf(movie);
+        movies[index] = {...movies[index]};
+        movies[index].liked = !movies[index].liked;
+        this.setState({movies}); 
+    }
     render() {
         const {length :count } = this.state.movies;
         if(count === 0)
@@ -21,14 +29,15 @@ class Movies extends Component {
         return (
             <div className=''>
                 {this.renderMovies()}
-                <table className='table table-bordered table-condensed'>
+                <table className='table table-condensed'>
                     <thead>
                         <tr>
                             <th>Title</th>
                             <th>Genre</th>
                             <th>Stock</th>
                             <th>Rate</th>
-                            <th>Action</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,12 +48,26 @@ class Movies extends Component {
                                 <td>{movie.numberInStock}</td>
                                 <td>{movie.dailyRentalRate}</td>
                                 <td>
+                                    <Like liked={movie.liked} onClick={() => this.handleLike(movie)}/>
+                                </td>
+                                <td>
                                     <button className='btn btn-danger btn-sm' onClick={() => this.handleDelete(movie)}>Delete</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                
+                <nav aria-label="Page navigation example">
+                    <ul className="pagination">
+                        <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                        <li className="page-item"><a className="page-link" href="#">1</a></li>
+                        <li className="page-item"><a className="page-link" href="#">2</a></li>
+                        <li className="page-item"><a className="page-link" href="#">3</a></li>
+                        <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            
             </div>
         )
     }
