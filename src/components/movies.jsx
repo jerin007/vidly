@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getMovies } from '../services/fakeMovieService';
 import Like from './like';
+import Pagination from './common/pagination';
 
 class Movies extends Component {
     state = {
@@ -20,6 +21,9 @@ class Movies extends Component {
         movies[index] = {...movies[index]};
         movies[index].liked = !movies[index].liked;
         this.setState({movies}); 
+    }
+    handlePageChange = () => {
+    
     }
     render() {
         const {length :count } = this.state.movies;
@@ -57,17 +61,12 @@ class Movies extends Component {
                         ))}
                     </tbody>
                 </table>
-                
-                <nav aria-label="Page navigation example">
-                    <ul className="pagination">
-                        <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-                        <li className="page-item"><a className="page-link" href="#">1</a></li>
-                        <li className="page-item"><a className="page-link" href="#">2</a></li>
-                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                        <li className="page-item"><a className="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
-            
+
+                <Pagination 
+                    itemsCount = {count}
+                    pageSize = {4}
+                    onPageChange = {this.handlePageChange}
+                />
             </div>
         )
     }
